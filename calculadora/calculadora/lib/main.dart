@@ -14,6 +14,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       home: Convertir(),
     );
+
+
+    
   }
 }
 
@@ -34,18 +37,10 @@ class _CalculatorState extends State<Convertir> {
 
   String result = '';
 
-  // CORRECCIÓN 1:
-  // La función va dentro de _CalculatorState,
-  // pero fuera de build() y de onPressed.
-  // Recibe los pesos y el precio del dólar.
-  double convert(double pesos, double precioDolar) {
-    // CORRECCIÓN 2:
-    // Dividimos los pesos entre el precio del dólar.
-    double convertir = pesos / precioDolar;
-    double convertir = pesos / precioEuro;
+  // Convierte pesos colombianos a dólares o euros.
+  double convert(double pesos, double precioMoneda) {
+    double convertir = pesos / precioMoneda;
 
-    // CORRECCIÓN 3:
-    // Devolvemos el resultado de la división.
     return convertir;
   }
 
@@ -87,9 +82,6 @@ class _CalculatorState extends State<Convertir> {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // CORRECCIÓN 4:
-                // Comprobamos que el campo de pesos tenga
-                // un número válido antes de convertirlo.
                 double? pesos =
                     double.tryParse(pesosController.text);
 
@@ -101,16 +93,20 @@ class _CalculatorState extends State<Convertir> {
                 }
 
                 double precioDolar = 3000;
+                double precioEuro = 3500;
 
-                // CORRECCIÓN 5:
-                // Llamamos a la función y guardamos
-                // el número que devuelve.
                 double dolares = convert(pesos, precioDolar);
+                double euros = convert(pesos, precioEuro);
 
-                // CORRECCIÓN 6:
-                // Actualizamos el texto que ve el usuario.
                 setState(() {
-                  result = dolares.toStringAsFixed(2);
+                  result =
+                      'Dólares: ${dolares.toStringAsFixed(2)}\n'
+                      'Euros: ${euros.toStringAsFixed(2)}';
+
+                  dolaresController.text =
+                      dolares.toStringAsFixed(2);
+                  eurosController.text =
+                      euros.toStringAsFixed(2);
                 });
               },
               child: Text('Convertir'),

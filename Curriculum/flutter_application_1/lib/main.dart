@@ -1,206 +1,232 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Datos personales',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const PerfilPage(),
+      title: 'Flutter Demo',
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class PerfilPage extends StatelessWidget {
-  const PerfilPage({super.key});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
 
-  static const _habilidades = [
-    'JavaScript',
-    'React',
-    'Python',
-    'C#',
-    'Flutter',
-    'Django',
-    '.NET',
-    'Node',
-  ];
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+        // TRY THIS: Try changing the color here to a specific color (to
+        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Mi perfil'),
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(widget.title),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const _Tarjeta(
-            child: _Encabezado(
-              icono: Icons.person,
-              titulo: 'Greisy Garcia',
-              subtitulo: 'Bello, Antioquia, Colombia',
-            ),
-          ),
-          const SizedBox(height: 12),
-          const _Tarjeta(
-            child: Column(
-              children: [
-                _FilaDato(
-                  icono: Icons.cake,
-                  etiqueta: 'Fecha de nacimiento',
-                  valor: '8 de abril del 2005',
-                ),
-                SizedBox(height: 16),
-                _FilaDato(
-                  icono: Icons.phone,
-                  etiqueta: 'Número de teléfono',
-                  valor: '324185882',
-                ),
-                SizedBox(height: 16),
-                _FilaDato(
-                  icono: Icons.house,
-                  etiqueta: 'Dirección',
-                  valor: 'Calle 21c # 40-31',
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          _Tarjeta(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _Encabezado(
-                  icono: Icons.book,
-                  titulo: 'SENA',
-                  subtitulo: 'Tecnóloga en análisis y desarrollo de software',
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Habilidades',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 4,
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: Column(
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          //
+          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
+          // action in the IDE, or press "p" in the console), to see the
+          // wireframe for each widget.
+          mainAxisAlignment: .center,
+          children: const [
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (final h in _habilidades) Chip(label: Text(h)),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Color.fromARGB(255, 211, 144, 223),
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Greisy Garcia',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text('Bello, Antioquia, Colombia'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-/// Tarjeta base reutilizable (elevación, bordes y padding en un solo lugar).
-class _Tarjeta extends StatelessWidget {
-  const _Tarjeta({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SizedBox(width: double.infinity, child: child),
-      ),
-    );
-  }
-}
-
-/// Avatar circular + título + subtítulo.
-class _Encabezado extends StatelessWidget {
-  const _Encabezado({
-    required this.icono,
-    required this.titulo,
-    required this.subtitulo,
-  });
-
-  final IconData icono;
-  final String titulo;
-  final String subtitulo;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: const Color.fromARGB(255, 211, 144, 223),
-          child: Icon(icono, color: Colors.white, size: 32),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                titulo,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.cake, color: Colors.pinkAccent),
+                        SizedBox(width: 18),
+                        Text(
+                          'Fecha de nacimiento:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: 3),
+                        Text('8 de abril del 2005'),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      children: [
+                        Icon(Icons.phone, color: Colors.pinkAccent),
+                        SizedBox(width: 18),
+                        Text(
+                          'Numero de telefono:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: 3),
+                        Text('324185882'),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      children: [
+                        Icon(Icons.house, color: Colors.pinkAccent),
+                        SizedBox(width: 18),
+                        Text(
+                          'Dirección:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: 3),
+                        Text('Calle 21c # 40-31'),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 4),
-              Text(subtitulo),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-/// Fila "icono + etiqueta: valor" que no se desborda.
-class _FilaDato extends StatelessWidget {
-  const _FilaDato({
-    required this.icono,
-    required this.etiqueta,
-    required this.valor,
-  });
-
-  final IconData icono;
-  final String etiqueta;
-  final String valor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icono, color: Colors.pinkAccent),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: '$etiqueta: ',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextSpan(text: valor),
-              ],
             ),
-          ),
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Color.fromARGB(255, 211, 144, 223),
+                          child: Icon(
+                            Icons.book,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'SENA',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Tecnóloga en ánalisis y desarrollo de software',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                'Soy desarrolladora en JavaScript, react, python, c#, flutter, Django, .Net, Node',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
